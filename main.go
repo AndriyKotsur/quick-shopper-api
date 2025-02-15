@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/AndriyKotsur/quick-shopper-api/cmd"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	fmt.Println("Starting application...")
+	cmd.Execute()
 }
