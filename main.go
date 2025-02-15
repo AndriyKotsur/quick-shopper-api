@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"github.com/rs/zerolog/log"
+
 	"github.com/AndriyKotsur/quick-shopper-api/cmd"
 )
 
 func main() {
-	fmt.Println("Starting application...")
+	log.Info().Msg("Starting application...")
 	cmd.Execute()
 }

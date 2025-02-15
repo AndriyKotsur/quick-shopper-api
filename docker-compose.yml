@@ -1,0 +1,15 @@
+version: "3.0"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "/app/quick-shopper-api run"
+    ports:
+      - "5050:5050"
+    environment:
+      - API_PORT=5050
+      - API_READ_TIMEOUT=10
+      - API_WRITE_TIMEOUT=10
+      - API_IDLE_TIMEOUT=20
