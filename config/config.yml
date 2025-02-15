@@ -1,0 +1,6 @@
+api:
+  port: 5050
+  read_timeout: 10
+  write_timeout: 10
+  idle_timeout: 20
+  debug: true
