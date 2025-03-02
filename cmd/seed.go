@@ -9,9 +9,9 @@ import (
 	"github.com/AndriyKotsur/quick-shopper-api/internal/server"
 )
 
-var migrateCmd = &cobra.Command{
-	Use:   "migrate",
-	Short: "Run migration",
+var seedCmd = &cobra.Command{
+	Use:   "seed",
+	Short: "Run seeding",
 	Run: func(cmd *cobra.Command, args []string) {
 		config.LoadConfig()
 
@@ -21,11 +21,11 @@ var migrateCmd = &cobra.Command{
 		}
 		defer dbConn.Close()
 
-		migrator := database.Migrator(dbConn)
-		migrator.Up()
+		seeder := database.Seeder(dbConn)
+		seeder.SeedUsers()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(migrateCmd)
+	rootCmd.AddCommand(seedCmd)
 }
