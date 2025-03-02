@@ -4,3 +4,9 @@ api:
   write_timeout: 10
   idle_timeout: 20
   debug: true
+
+db:
+  host: localhost
+  user: user
+  password: qwerty
+  name: booking

@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"database/sql"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,7 +15,26 @@ import (
 
 	"github.com/AndriyKotsur/quick-shopper-api/config"
 	"github.com/AndriyKotsur/quick-shopper-api/logger"
+	db "github.com/AndriyKotsur/quick-shopper-api/third_party/database"
 )
+
+func InitDatabase() *sql.DB {
+	dbConfig := db.Config{
+		Host:     viper.GetString("db.host"),
+		User:     viper.GetString("db.user"),
+		Password: viper.GetString("db.password"),
+		Name:     viper.GetString("db.name"),
+	}
+
+	database, err := db.Connect(dbConfig)
+	if err != nil {
+		log.Fatal().
+			Err(err).
+			Msgf("Cannot start %s", err)
+	}
+
+	return database
+}
 
 func InitRouter() http.Handler {
 	router := chi.NewRouter()
@@ -39,6 +59,8 @@ func Run() {
 	config.LoadConfig()
 	logger.InitLogger()
 	router := InitRouter()
+	database := InitDatabase()
+	defer database.Close()
 
 	server := &http.Server{
 		Addr:         ":" + viper.GetString("api.port"),
@@ -57,9 +79,8 @@ func Run() {
 		}
 	}()
 
-	sigChan := make(chan os.Signal)
-	signal.Notify(sigChan, os.Interrupt)
-	signal.Notify(sigChan, os.Kill)
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, os.Kill)
 
 	sig := <-sigChan
 	log.Info().Msgf("Receive terminate, graceful shutdown %s", sig)
