@@ -16,7 +16,7 @@ type Config struct {
 }
 
 func Connect(config Config) (*sql.DB, error) {
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		config.User, config.Password, config.Host, config.Port, config.Name)
 
 	db, err := sql.Open("postgres", connStr)

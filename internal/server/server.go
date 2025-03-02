@@ -24,6 +24,7 @@ func InitDatabase() *sql.DB {
 		User:     viper.GetString("db.user"),
 		Password: viper.GetString("db.password"),
 		Name:     viper.GetString("db.name"),
+		Port:     viper.GetString("db.port"),
 	}
 
 	database, err := db.Connect(dbConfig)

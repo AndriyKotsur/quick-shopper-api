@@ -8,5 +8,6 @@ api:
 db:
   host: localhost
   user: user
-  password: qwerty
+  password: password
   name: booking
+  port: 5432
