@@ -7,7 +7,7 @@ package database
 
 import (
 	"context"
-	"database/sql"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -20,12 +20,12 @@ RETURNING id, email, name, password, role, created_at, updated_at
 
 type CreateUserParams struct {
 	ID        uuid.UUID
-	CreatedAt sql.NullTime
-	UpdatedAt sql.NullTime
+	CreatedAt time.Time
+	UpdatedAt time.Time
 	Email     string
 	Name      string
 	Password  string
-	Role      sql.NullString
+	Role      string
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -60,6 +60,25 @@ func (q *Queries) DeleteUser(ctx context.Context, id uuid.UUID) error {
 	return err
 }
 
+const getUserByEmail = `-- name: GetUserByEmail :one
+SELECT id, email, name, password, role, created_at, updated_at FROM users WHERE email = $1
+`
+
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserByEmail, email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.Name,
+		&i.Password,
+		&i.Role,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const getUserByID = `-- name: GetUserByID :one
 SELECT id, email, name, password, role, created_at, updated_at FROM users WHERE id = $1
 `
@@ -92,11 +111,11 @@ RETURNING id, email, name, password, role, created_at, updated_at
 
 type UpdateUserParams struct {
 	ID        uuid.UUID
-	UpdatedAt sql.NullTime
+	UpdatedAt time.Time
 	Email     string
 	Name      string
 	Password  string
-	Role      sql.NullString
+	Role      string
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {

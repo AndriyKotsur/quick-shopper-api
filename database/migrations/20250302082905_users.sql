@@ -5,9 +5,9 @@ CREATE TABLE users (
     email VARCHAR(150) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
     password TEXT NOT NULL,
-    role VARCHAR(20) CHECK (role IN ('ADMIN', 'CUSTOMER', 'MANAGER')),
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
+    role VARCHAR(20) CHECK (role IN ('ADMIN', 'CUSTOMER', 'MANAGER')) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
 );
 -- +goose StatementEnd
 
