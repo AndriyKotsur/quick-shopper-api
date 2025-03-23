@@ -115,7 +115,7 @@ func (c *AuthController) Login(w http.ResponseWriter, r *http.Request) {
 		MaxAge:   viper.GetInt("refresh_token.max_age") * 60,
 		HttpOnly: true,
 		Secure:   false,
-		SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteLaxMode,
 	})
 
 	respond.JSON(w, http.StatusOK, accessToken)
@@ -128,7 +128,7 @@ func (c *AuthController) Refresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	claims, err := token.ValidateToken(cookie.Value, viper.GetString("access_token.public_key"))
+	claims, err := token.ValidateToken(cookie.Value, viper.GetString("refresh_token.public_key"))
 	if err != nil {
 		log.Error().Msgf("Error validating token: %v", err)
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -153,9 +153,10 @@ func (c *AuthController) Refresh(w http.ResponseWriter, r *http.Request) {
 		Name:     "refresh_token",
 		Value:    newRefreshToken,
 		Path:     "/",
+		MaxAge:   viper.GetInt("refresh_token.max_age") * 60,
 		HttpOnly: true,
 		Secure:   false,
-		SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteLaxMode,
 	})
 
 	respond.JSON(w, http.StatusOK, newAccessToken)
