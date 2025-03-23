@@ -5,6 +5,18 @@ api:
   idle_timeout: 20
   debug: true
 
+access_token:
+  private_key: privateKey
+  public_key: publicKey
+  expires_in: 10m
+  max_age: 10
+
+refresh_token:
+  private_key: privateKey
+  public_key: publicKey
+  expires_in: 60m
+  max_age: 60
+
 db:
   host: localhost
   user: user
