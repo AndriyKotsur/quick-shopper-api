@@ -9,16 +9,19 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 
 	"github.com/AndriyKotsur/quick-shopper-api/config"
-	"github.com/AndriyKotsur/quick-shopper-api/logger"
+	"github.com/AndriyKotsur/quick-shopper-api/internal/database"
+	"github.com/AndriyKotsur/quick-shopper-api/internal/domain/authentication"
+	logger "github.com/AndriyKotsur/quick-shopper-api/logger"
 	db "github.com/AndriyKotsur/quick-shopper-api/third_party/database"
 )
 
-func InitDatabase() *sql.DB {
+func InitDatabase() (*sql.DB, error) {
 	dbConfig := db.Config{
 		Host:     viper.GetString("db.host"),
 		User:     viper.GetString("db.user"),
@@ -29,15 +32,13 @@ func InitDatabase() *sql.DB {
 
 	database, err := db.Connect(dbConfig)
 	if err != nil {
-		log.Fatal().
-			Err(err).
-			Msgf("Cannot start %s", err)
+		log.Error().Err(err).Msg("Failed to connect to database")
+		return nil, err
 	}
 
-	return database
+	return database, nil
 }
-
-func InitRouter() http.Handler {
+func InitRouter() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Use(cors.Handler(cors.Options{
@@ -48,10 +49,7 @@ func InitRouter() http.Handler {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-
-	v1Router := chi.NewRouter()
-
-	router.Mount("/v1", v1Router)
+	router.Use(middleware.Logger)
 
 	return router
 }
@@ -59,9 +57,20 @@ func InitRouter() http.Handler {
 func Run() {
 	config.LoadConfig()
 	logger.InitLogger()
+
+	dbConn, err := InitDatabase()
+	if err != nil {
+		log.Fatal().Err(err).Msg("Database initialization failed")
+	}
+	defer dbConn.Close()
+
 	router := InitRouter()
-	database := InitDatabase()
-	defer database.Close()
+	dbQueries := database.New(dbConn)
+
+	v1Router := chi.NewRouter()
+	authentication.RegisterAuthEndpoints(v1Router, dbQueries, context.Background())
+
+	router.Mount("/v1", v1Router)
 
 	server := &http.Server{
 		Addr:         ":" + viper.GetString("api.port"),
