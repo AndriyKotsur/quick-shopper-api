@@ -17,6 +17,7 @@ import (
 	"github.com/AndriyKotsur/quick-shopper-api/config"
 	"github.com/AndriyKotsur/quick-shopper-api/internal/database"
 	"github.com/AndriyKotsur/quick-shopper-api/internal/domain/authentication"
+	"github.com/AndriyKotsur/quick-shopper-api/internal/domain/user"
 	logger "github.com/AndriyKotsur/quick-shopper-api/logger"
 	db "github.com/AndriyKotsur/quick-shopper-api/third_party/database"
 )
@@ -68,7 +69,8 @@ func Run() {
 	dbQueries := database.New(dbConn)
 
 	v1Router := chi.NewRouter()
-	authentication.RegisterAuthEndpoints(v1Router, dbQueries, context.Background())
+	authentication.RegisterAuthEndpoints(v1Router, dbQueries)
+	user.RegisterUserEndpoints(v1Router, dbQueries)
 
 	router.Mount("/v1", v1Router)
 

@@ -1,7 +1,6 @@
 package authentication
 
 import (
-	"context"
 	"errors"
 	"net/http"
 	"time"
@@ -19,12 +18,11 @@ import (
 )
 
 type AuthController struct {
-	db  *database.Queries
-	ctx context.Context
+	db *database.Queries
 }
 
-func NewAuthController(db *database.Queries, ctx context.Context) *AuthController {
-	return &AuthController{db, ctx}
+func NewAuthController(db *database.Queries) *AuthController {
+	return &AuthController{db}
 }
 
 func (c *AuthController) Register(w http.ResponseWriter, r *http.Request) {
@@ -61,7 +59,7 @@ func (c *AuthController) Register(w http.ResponseWriter, r *http.Request) {
 		UpdatedAt: time.Now(),
 	}
 
-	_, err = c.db.CreateUser(c.ctx, *userArgs)
+	_, err = c.db.CreateUser(r.Context(), *userArgs)
 	if err != nil {
 		log.Error().Msgf("Error registering user: %v", err)
 		respond.Error(w, http.StatusBadRequest, nil)
@@ -81,7 +79,7 @@ func (c *AuthController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := c.db.GetUserByEmail(c.ctx, params.Email)
+	user, err := c.db.GetUserByEmail(r.Context(), params.Email)
 	if err != nil {
 		log.Error().Msgf("Invalid email or password: %v", err)
 		respond.Error(w, http.StatusBadRequest, errors.New("Invalid email or password"))
