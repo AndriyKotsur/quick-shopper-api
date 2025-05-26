@@ -1,4 +1,4 @@
-module github.com/AndriyKotsur/quick-shopper-api
+module github.com/AndriyKotsur/quick-booking-api
 
 go 1.23.5
 

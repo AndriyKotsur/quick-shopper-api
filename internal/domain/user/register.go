@@ -3,8 +3,8 @@ package user
 import (
 	"github.com/go-chi/chi"
 
-	"github.com/AndriyKotsur/quick-shopper-api/internal/database"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/middleware"
+	"github.com/AndriyKotsur/quick-booking-api/internal/database"
+	"github.com/AndriyKotsur/quick-booking-api/internal/middleware"
 )
 
 func RegisterUserEndpoints(r *chi.Mux, db *database.Queries) {

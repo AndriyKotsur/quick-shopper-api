@@ -14,12 +14,12 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 
-	"github.com/AndriyKotsur/quick-shopper-api/config"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/database"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/domain/authentication"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/domain/user"
-	logger "github.com/AndriyKotsur/quick-shopper-api/logger"
-	db "github.com/AndriyKotsur/quick-shopper-api/third_party/database"
+	"github.com/AndriyKotsur/quick-booking-api/config"
+	"github.com/AndriyKotsur/quick-booking-api/internal/database"
+	"github.com/AndriyKotsur/quick-booking-api/internal/domain/authentication"
+	"github.com/AndriyKotsur/quick-booking-api/internal/domain/user"
+	logger "github.com/AndriyKotsur/quick-booking-api/logger"
+	db "github.com/AndriyKotsur/quick-booking-api/third_party/database"
 )
 
 func InitDatabase() (*sql.DB, error) {

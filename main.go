@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/AndriyKotsur/quick-shopper-api/cmd"
+	"github.com/AndriyKotsur/quick-booking-api/cmd"
 )
 
 func main() {

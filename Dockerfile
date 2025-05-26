@@ -15,7 +15,7 @@ RUN go mod download
 COPY . .
 
 # Build the binary.
-RUN go build -v -o quick-shopper-api
+RUN go build -v -o quick-booking-api
 
 # Runtime stage
 FROM debian:bookworm-slim
@@ -28,4 +28,4 @@ WORKDIR ${root}
 # Copy only the binary from the builder stage
 COPY --from=builder ${tmp}/ ${root}/
 
-CMD ["/app/quick-shopper-api run"]
+CMD ["/app/quick-booking-api run"]

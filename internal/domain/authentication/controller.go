@@ -9,12 +9,12 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 
-	"github.com/AndriyKotsur/quick-shopper-api/internal/database"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/json"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/password"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/respond"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/token"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/validate"
+	"github.com/AndriyKotsur/quick-booking-api/internal/database"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/json"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/password"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/respond"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/token"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/validate"
 )
 
 type AuthController struct {

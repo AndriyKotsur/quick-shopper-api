@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/token"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/token"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"

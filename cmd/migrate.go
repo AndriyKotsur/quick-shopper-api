@@ -4,9 +4,9 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 
-	"github.com/AndriyKotsur/quick-shopper-api/config"
-	"github.com/AndriyKotsur/quick-shopper-api/database"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/server"
+	"github.com/AndriyKotsur/quick-booking-api/config"
+	"github.com/AndriyKotsur/quick-booking-api/database"
+	"github.com/AndriyKotsur/quick-booking-api/internal/server"
 )
 
 var migrateCmd = &cobra.Command{

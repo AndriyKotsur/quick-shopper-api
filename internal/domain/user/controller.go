@@ -8,11 +8,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 
-	"github.com/AndriyKotsur/quick-shopper-api/internal/database"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/json"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/password"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/respond"
-	"github.com/AndriyKotsur/quick-shopper-api/internal/utility/validate"
+	"github.com/AndriyKotsur/quick-booking-api/internal/database"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/json"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/password"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/respond"
+	"github.com/AndriyKotsur/quick-booking-api/internal/utility/validate"
 )
 
 type UserController struct {

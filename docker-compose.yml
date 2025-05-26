@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: "/app/quick-shopper-api run"
+    command: "/app/quick-booking-api run"
     ports:
       - "5050:5050"
     environment:
