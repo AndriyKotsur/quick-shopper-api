@@ -10,6 +10,17 @@ import (
 	"github.com/google/uuid"
 )
 
+type Booking struct {
+	ID        uuid.UUID
+	UserID    uuid.UUID
+	VenueID   uuid.UUID
+	StartTime time.Time
+	EndTime   time.Time
+	Status    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
 type User struct {
 	ID        uuid.UUID
 	Email     string
