@@ -12,6 +12,7 @@ import (
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "Run migration",
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		config.LoadConfig()
 
@@ -22,7 +23,15 @@ var migrateCmd = &cobra.Command{
 		defer dbConn.Close()
 
 		migrator := database.Migrator(dbConn)
-		migrator.Up()
+
+		switch args[0] {
+		case "up":
+			migrator.Up()
+		case "down":
+			migrator.Down()
+		default:
+			log.Error().Str("arg", args[0]).Msg("Invalid argument: use 'up' or 'down'")
+		}
 	},
 }
 
