@@ -75,7 +75,41 @@ func (q *Queries) GetVenueByID(ctx context.Context, id uuid.UUID) (Venue, error)
 	return i, err
 }
 
-const updateVenu = `-- name: UpdateVenu :one
+const getVenues = `-- name: GetVenues :many
+SELECT id, name, location, type, created_at, updated_at FROM venues
+`
+
+func (q *Queries) GetVenues(ctx context.Context) ([]Venue, error) {
+	rows, err := q.db.QueryContext(ctx, getVenues)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Venue
+	for rows.Next() {
+		var i Venue
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Location,
+			&i.Type,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const updateVenue = `-- name: UpdateVenue :one
 UPDATE venues
 SET updated_at = $2,
 name = $3,
@@ -85,7 +119,7 @@ WHERE id = $1
 RETURNING id, name, location, type, created_at, updated_at
 `
 
-type UpdateVenuParams struct {
+type UpdateVenueParams struct {
 	ID        uuid.UUID
 	UpdatedAt time.Time
 	Name      string
@@ -93,8 +127,8 @@ type UpdateVenuParams struct {
 	Type      string
 }
 
-func (q *Queries) UpdateVenu(ctx context.Context, arg UpdateVenuParams) (Venue, error) {
-	row := q.db.QueryRowContext(ctx, updateVenu,
+func (q *Queries) UpdateVenue(ctx context.Context, arg UpdateVenueParams) (Venue, error) {
+	row := q.db.QueryRowContext(ctx, updateVenue,
 		arg.ID,
 		arg.UpdatedAt,
 		arg.Name,

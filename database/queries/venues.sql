@@ -1,3 +1,6 @@
+-- name: GetVenues :many
+SELECT * FROM venues;
+
 -- name: GetVenueByID :one
 SELECT * FROM venues WHERE id = $1;
 
@@ -6,7 +9,7 @@ INSERT INTO venues (id, created_at, updated_at, name, location, type)
 VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING *;
 
--- name: UpdateVenu :one
+-- name: UpdateVenue :one
 UPDATE venues
 SET updated_at = $2,
 name = $3,
