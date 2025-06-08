@@ -19,3 +19,12 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type Venue struct {
+	ID        uuid.UUID
+	Name      string
+	Location  string
+	Type      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
