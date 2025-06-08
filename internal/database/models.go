@@ -22,6 +22,7 @@ type User struct {
 
 type Venue struct {
 	ID        uuid.UUID
+	UserID    uuid.UUID
 	Name      string
 	Location  string
 	Type      string

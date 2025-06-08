@@ -18,6 +18,7 @@ import (
 	"github.com/AndriyKotsur/quick-booking-api/internal/database"
 	"github.com/AndriyKotsur/quick-booking-api/internal/domain/authentication"
 	"github.com/AndriyKotsur/quick-booking-api/internal/domain/user"
+	"github.com/AndriyKotsur/quick-booking-api/internal/domain/venue"
 	logger "github.com/AndriyKotsur/quick-booking-api/logger"
 	db "github.com/AndriyKotsur/quick-booking-api/third_party/database"
 )
@@ -71,6 +72,7 @@ func Run() {
 	v1Router := chi.NewRouter()
 	authentication.RegisterAuthEndpoints(v1Router, dbQueries)
 	user.RegisterUserEndpoints(v1Router, dbQueries)
+	venue.RegisterVenueEndpoints(v1Router, dbQueries)
 
 	router.Mount("/v1", v1Router)
 

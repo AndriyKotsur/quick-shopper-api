@@ -24,14 +24,13 @@ func NewUserController(db *database.Queries) *UserController {
 }
 
 func (c *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
-	userClaims, ok := r.Context().Value("userId").(uuid.UUID)
-	log.Info().Interface("userClaims", userClaims).Msg("Parsed user claims")
+	userId, ok := r.Context().Value("userId").(uuid.UUID)
 	if !ok {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 
-	user, err := c.db.GetUserByID(r.Context(), userClaims)
+	user, err := c.db.GetUserByID(r.Context(), userId)
 	if err != nil {
 		log.Error().Msgf("User not found: %v", err)
 		respond.Error(w, http.StatusNotFound, nil)
