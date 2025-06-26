@@ -41,6 +41,7 @@ func (c *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 		ID:    user.ID,
 		Email: user.Email,
 		Name:  user.Name,
+		Role:  user.Role,
 	})
 }
 
@@ -65,6 +66,7 @@ func (c *UserController) GetUserById(w http.ResponseWriter, r *http.Request) {
 		ID:    user.ID,
 		Email: user.Email,
 		Name:  user.Name,
+		Role:  user.Role,
 	})
 }
 
@@ -113,6 +115,7 @@ func (c *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		ID:    newUser.ID,
 		Email: newUser.Email,
 		Name:  newUser.Name,
+		Role:  newUser.Role,
 	})
 }
 
@@ -158,6 +161,7 @@ func (c *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		ID:    updatedUser.ID,
 		Email: updatedUser.Email,
 		Name:  updatedUser.Name,
+		Role:  updatedUser.Role,
 	})
 }
 
