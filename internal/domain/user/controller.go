@@ -23,6 +23,28 @@ func NewUserController(db *database.Queries) *UserController {
 	return &UserController{db}
 }
 
+func (c *UserController) GetUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := c.db.GetUsers(r.Context())
+	if err != nil {
+		log.Error().Msgf("Bookings not found: %v", err)
+		respond.Error(w, http.StatusNotFound, nil)
+		return
+	}
+
+	userList := []UserResponse{}
+
+	for _, user := range users {
+		userList = append(userList, UserResponse{
+			ID:    user.ID,
+			Email: user.Email,
+			Name:  user.Name,
+			Role:  user.Role,
+		})
+	}
+
+	respond.JSON(w, http.StatusOK, userList)
+}
+
 func (c *UserController) GetMe(w http.ResponseWriter, r *http.Request) {
 	userId, ok := r.Context().Value("userId").(uuid.UUID)
 	if !ok {
